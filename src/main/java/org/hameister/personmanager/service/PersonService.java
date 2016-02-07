@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by Joern Hameister on 24.01.16.
  */
 @Service
-public class PersonService {
+public class PersonService implements PersonInterface {
 
 
     @Autowired
@@ -39,8 +40,42 @@ public class PersonService {
         return  salarySum / personList.size();
     }
 
-    public Person  addPerson(Person person) {
+    public Person addPerson(Person person) {
+        return personRepository.save(person);
+    }
+
+    @Override
+    public Collection<Person> findAll() {
+        return personRepository.findAll();
+    }
+
+    @Override
+    public Person findOne(Long id) {
+        return personRepository.findOne(id);
+    }
+
+    @Override
+    public Person create(Person person) {
+
+        if (person.getId() != null) {
+            return null;
+        }
+        return personRepository.save(person);
+    }
+
+    @Override
+    public Person update(Person person) {
+        Person persistedPerson =personRepository.findOne(person.getId());
+
+        if (persistedPerson == null) {
+            return null;
+        }
 
         return personRepository.save(person);
+    }
+
+    @Override
+    public void delete(long id) {
+        personRepository.delete(id);
     }
 }
