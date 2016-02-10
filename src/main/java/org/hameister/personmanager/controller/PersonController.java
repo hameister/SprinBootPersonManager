@@ -94,4 +94,13 @@ public class PersonController {
         return new ResponseEntity<Person>(HttpStatus.NO_CONTENT);
     }
 
+    /**************
+     Average Salary
+     **************/
+    @RequestMapping(value = "/api/persons/average", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Double> getAverageSalary() {
+        Double avgSalary = personService.averageSalary();
+
+        return new ResponseEntity<Double>(avgSalary, HttpStatus.OK);
+    }
 }
